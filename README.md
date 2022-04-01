@@ -1,2 +1,2 @@
 # BIM.js
-Trying to use IFC.js to create BIM model
+Trying to create BIM model and establish a platform
