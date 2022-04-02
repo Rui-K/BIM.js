@@ -53,7 +53,7 @@ def write_fly(path, points):
 
 def RANSAC(points, type='plane',thresh=0.05, maxIteration=1000):
     """input numpy points, shape type want to fit, return equation parameters and inliers
-        type includes 'plane','circle','cuboid'
+        type includes 'plane','circle','line'
     """
     data_xyz = points[:,0:3]
     if type=='plane':
@@ -64,10 +64,10 @@ def RANSAC(points, type='plane',thresh=0.05, maxIteration=1000):
         cylinder = pyrsc.Cylinder()
         center,axis,radius,inlier = cylinder.fit(data_xyz, thresh=thresh, maxIteration=maxIteration)
         return center,axis,radius,inlier
-    elif type=='cuboid':
-        cuboid = pyrsc.Cuboid()
-        best_eq, best_inliers = cuboid.fit(data_xyz, thresh=thresh, maxIteration=maxIteration)
-        return best_eq, best_inliers
+    elif type=='line':
+        line = pyrsc.Line()
+        A, B, best_inliers = line.fit(data_xyz, thresh=thresh, maxIteration=maxIteration)
+        return A, B, best_inliers
     
 
 if __name__ =='__main__':
