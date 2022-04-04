@@ -51,13 +51,15 @@ def extract_line(points):
     lines = []
     i = 0
     remain_percent = len(remain)/NUM
-    while(remain_percent>0.1):
+    while(remain_percent>0.3):
         a, b, in_liers = RANSAC(remain,'line',thresh = thresh, maxIteration=maxIteration)
         if len(in_liers)<100:
+            print("Too less points, skip")
             continue
         log_string("Line %i: "%i + "A: "+str(a)+" B: "+str(b)+" remain percent: "+str(remain_percent))
         lines.append(remain[in_liers,:])
         remain = split_array(remain, in_liers)
+        remain_percent = len(remain)/NUM
         i += 1
     return to_points(np.array(lines))
 

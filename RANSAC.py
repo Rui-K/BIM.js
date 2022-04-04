@@ -42,13 +42,14 @@ def from_ply(root, with_color=False):
                         vertex['z']), axis = -1).astype(np.float32)
     
     return points
-def write_fly(path, points):
-    
-    color = [(points[i,3], points[i,4], points[i,5]) for i in range(points.shape[0])]
+def write_fly(path, points, with_color = False):
     points = [(points[i,0], points[i,1], points[i,2]) for i in range(points.shape[0])]
     points = PlyElement.describe(np.array(points,dtype=[('x', 'f4'), ('y', 'f4'),('z', 'f4')]), 'vertex')
-    color = PlyElement.describe(np.array(color,dtype=[('red', 'u1'), ('green', 'u1'),('blue', 'u1')]),'color')
-    PlyData([points,color]).write(path)
+    if with_color==True:
+        color = [(points[i,3], points[i,4], points[i,5]) for i in range(points.shape[0])]
+        color = PlyElement.describe(np.array(color,dtype=[('red', 'u1'), ('green', 'u1'),('blue', 'u1')]),'color')
+        PlyData([points,color]).write(path)
+    PlyData([points]).write(path)
 
 
 def RANSAC(points, type='plane',thresh=0.05, maxIteration=1000):
