@@ -12,7 +12,7 @@ FLAGS = parser.parse_args()
 thresh = FLAGS.thresh
 maxIteration = FLAGS.maxIteration
 
-LOG_DIR = "C:\\Users\\kr971\\OneDrive\\硕士毕业设计\\code"
+LOG_DIR = "E:\\基坑点云\\Rhino\\wall"
 LOG_FOUT = open(os.path.join(LOG_DIR, 'log_RANSAC.txt'), 'w')
 LOG_FOUT.write(str(FLAGS)+'\n')
 
@@ -72,13 +72,13 @@ def RANSAC(points, type='plane',thresh=0.05, maxIteration=1000):
     
 
 if __name__ =='__main__':
-    root = "E:\\基坑点云\\Rhino"
+    root = "E:\\基坑点云\\Rhino\\wall"
     for i in range(1,3):
         for j in range(1,4):
             filename = os.path.join(root, "wall_%i_%i.ply"%(i,j))
             points = from_ply(filename, with_color=True)
             best_eq, best_inliers = RANSAC(points, 'plane',thresh = thresh, maxIteration=maxIteration)   
-            log_string("Normal Vector of wall_%i_%i.ply"%(i,j)+": (%f,%f,%f)"%(best_eq[0],best_eq[1],best_eq[2]))
+            log_string("Normal Vector of wall_%i_%i.ply"%(i,j)+": (%f,%f,%f)"%(best_eq[0],best_eq[1],best_eq[2])+" D: %f"%best_eq[3])
             write_fly(os.path.join(root,"wall_%i_%i_extract.ply"%(i,j)),points[best_inliers,:])
             # visualize(points[best_inliers,:], with_color=True)
 
